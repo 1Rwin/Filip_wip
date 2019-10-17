@@ -1,0 +1,7 @@
+rootProject.name = 'poc'
+
+include 'application'
+include 'domain'
+include 'infrastructure'
+include 'service'
+include 'repository'

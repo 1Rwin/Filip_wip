@@ -1,0 +1,46 @@
+stages:
+  - build
+  - dockerize
+
+variables:
+  BUILD_IMAGE: "docker.signintra.com/docker/gradle:latest"
+  CACHE_KEY: "$CI_PROJECT_PATH-$CI_JOB_NAME-$CI_JOB_STAGE"
+  CI_DEBUG_TRACE: "false"
+  DOCKER_DRIVER: overlay2
+  ECR_IMAGE: "docker.signintra.com/docker/ecr:1.0.6"
+  GRADLE_CACHE_PATH: ".gradle"
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.caching=true -Dgradle.user.home=.gradle"
+
+cache: &cache
+  key: $CACHE_KEY
+  policy: pull-push
+  untracked: true
+  paths:
+    - $GRADLE_CACHE_PATH
+
+Build with Gradle:
+  stage: build
+  image: $BUILD_IMAGE
+  cache:
+    <<: *cache
+  script:
+    - gradle --stacktrace test assemble
+  artifacts:
+    paths:
+      - ./infrastructure/build/libs/*.jar
+      - ./infrastructure/build/reports/tests/test/index.html
+      - ./Dockerfile
+      - ./gradle.properties
+    expire_in: 30 minutes
+  coverage: /Total.*?([0-9]{1,3})%/
+
+Build Docker image:
+  image: $ECR_IMAGE
+  stage: dockerize
+  cache: {}
+  variables:
+    GIT_STRATEGY: "none"
+  script:
+    - mkdir target
+    - cp infrastructure/build/libs/*.jar target/$APPLICATION_NAME.jar
+    - docker build --build-arg APPLICATION_NAME=$APPLICATION_NAME .

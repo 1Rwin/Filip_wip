@@ -56,7 +56,7 @@ subprojects {
         springBootFramework "org.springframework.boot:spring-boot-starter-data-jpa"
         springBootFramework "org.springframework.boot:spring-boot-starter-web"
 
-        springContext "org.springframework:spring-context:${springContextVersion}"
+        springContext "org.springframework:spring-context"
 
         testLibs "org.springframework.boot:spring-boot-starter-test"
 
@@ -66,7 +66,7 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:2.2.1.RELEASE")
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.2.2.RELEASE")
         }
     }
 }

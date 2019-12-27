@@ -48,7 +48,7 @@ subprojects {
     dependencies {
         groovy "org.codehaus.groovy:groovy-all:${groovyVersion}"
         
-        logback "ch.qos.logback:logback-classic:${logbackVersion}"
+        logback "ch.qos.logback:logback-classic"
         
         lombok "org.projectlombok:lombok"
 

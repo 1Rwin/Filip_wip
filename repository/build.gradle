@@ -2,6 +2,8 @@ dependencies {
 
     implementation project(':domain')
 
+    implementation configurations.jpa
+    implementation configurations.jpadata
     implementation configurations.springContext
 
 }

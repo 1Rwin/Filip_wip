@@ -1,7 +1,8 @@
-rootProject.name = 'poc'
+rootProject.name = 'AutoSalon'
 
 include 'application'
 include 'domain'
 include 'infrastructure'
 include 'service'
 include 'repository'
+
